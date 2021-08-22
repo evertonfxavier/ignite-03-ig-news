@@ -7,9 +7,7 @@ import styles from "./styles.module.scss";
 export default function SignInButton() {
   const [session] = useSession();
   console.log(session);
-  // const isUserLoggendIn = true;
 
-  // return isUserLoggendIn ? (
   return session ? (
     <button
       type="button"
@@ -19,7 +17,6 @@ export default function SignInButton() {
       <FaGithub color="#04d361" />
 
       {session.user?.name}
-      {/* Verttin Xavier */}
       <FiX color="#737380" className={styles.closeIcon} />
     </button>
   ) : (
