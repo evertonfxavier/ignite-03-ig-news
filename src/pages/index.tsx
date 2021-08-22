@@ -1,12 +1,22 @@
 /* eslint-disable @next/next/no-img-element */
-import type { NextPage } from "next";
-import Head from 'next/head';
+import Head from "next/head";
+import type { GetStaticProps } from "next";
 
 import { SubscribeButton } from "../Components/SubscribeButton";
+import { stripe } from "../services/stripe";
 
 import styles from "../styles/home.module.scss";
 
-const Home: NextPage = () => {
+interface HomeProps {
+  product: {
+    priceId: string;
+    amount: number;
+  };
+}
+
+export const Home: React.FC<HomeProps> = ({ product }) => {
+  // console.log(props)
+
   return (
     <>
       <Head>
@@ -21,11 +31,10 @@ const Home: NextPage = () => {
           </h1>
           <p>
             Get to access to all publications <br />
-            {/* <span>for {product.amount} month</span> */}
+            <span>for {product.amount} month</span>
           </p>
 
-          {/* <SubscribeButton priceId={product.priceId} /> */}
-          <SubscribeButton />
+          <SubscribeButton priceId={product.priceId} />
         </section>
 
         <img src="/images/avatar.svg" alt="Girl Coding" />
@@ -35,3 +44,26 @@ const Home: NextPage = () => {
 };
 
 export default Home;
+
+export const getStaticProps: GetStaticProps = async () => {
+  const price = await stripe.prices.retrieve("price_1JRF9JJaIBVLT88m8I4h1YG6", {
+    expand: ["product"],
+  });
+
+  const product = {
+    priceId: price.id,
+    // amount: Number(price.unit_amount) / 100,
+    amount: new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+    }).format(Number(price.unit_amount) / 100),
+  };
+
+  return {
+    props: {
+      product,
+    },
+    //quanto tempo em seg eu quero que essa página se mantenha sem previsar ser revalidada/construída.
+    revalidate: 60 * 60 * 24, //24h
+  };
+};
