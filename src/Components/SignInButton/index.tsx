@@ -3,7 +3,6 @@ import { FaGithub } from "react-icons/fa";
 import { FiX } from "react-icons/fi";
 import { signIn, signOut, useSession } from "next-auth/client";
 
-
 import styles from "./styles.module.scss";
 
 export default function SignInButton() {
@@ -19,7 +18,7 @@ export default function SignInButton() {
       {/* <FaGithub color="#04d361" /> */}
       <img
         src={String(session.user?.image)}
-        alt="Minha Figura"
+        alt={String(session.user?.name)}
         width="24px"
         style={{ objectFit: "cover", borderRadius: "80px", marginRight: 10 }}
       />
