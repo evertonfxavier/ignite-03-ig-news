@@ -18,7 +18,7 @@ export default function SignInButton() {
     >
       {/* <FaGithub color="#04d361" /> */}
       <img
-        src={session.user?.image}
+        src={String(session.user?.image)}
         alt="Minha Figura"
         width="24px"
         style={{ objectFit: "cover", borderRadius: "80px", marginRight: 10 }}
