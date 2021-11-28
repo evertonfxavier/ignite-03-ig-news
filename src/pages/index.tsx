@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import Head from "next/head";
 import type { GetStaticProps } from "next";
+import { useSession } from "next-auth/client";
 
 import { SubscribeButton } from "../Components/SubscribeButton";
 import { stripe } from "../services/stripe";
@@ -15,7 +16,7 @@ interface HomeProps {
 }
 
 export const Home: React.FC<HomeProps> = ({ product }) => {
-  // console.log(props)
+  const [session] = useSession();
 
   return (
     <>
@@ -26,9 +27,15 @@ export const Home: React.FC<HomeProps> = ({ product }) => {
       <main className={styles.contentContainer}>
         <section className={styles.hero}>
           <span>👏 Hey, welcome</span>
-          <h1>
-            News about the <span>React</span> world.
-          </h1>
+          {session ? (
+            <h1>
+             LOGADOOO. \🥳/
+            </h1>
+          ) : (
+            <h1>
+              News about the <span>React</span> world.
+            </h1>
+          )}
           <p>
             Get to access to all publications <br />
             <span>for {product.amount} month</span>
@@ -47,10 +54,9 @@ export default Home;
 
 //SSR
 //Vai ser sempre no formato de const, pois no próprio next eu posso importar a tipagem GetServerSideProps
-//GetStaticProps > SSG > 
+//GetStaticProps > SSG >
 //Se houver informação diferente por usuário é melhor utilizar o GetServerSideProps
 export const getStaticProps: GetStaticProps = async () => {
-
   const price = await stripe.prices.retrieve("price_1JRF9JJaIBVLT88m8I4h1YG6");
 
   const product = {

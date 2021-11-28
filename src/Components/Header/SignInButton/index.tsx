@@ -31,9 +31,9 @@ export default function SignInButton() {
       <button
         type="button"
         className={styles.signInButton}
-        onClick={() => signIn("google")}
+        onClick={() => signIn("github")}
       >
-        <FaGoogle color="#eba417" />
+        <FaGithub color="#eba417" />
         Sign in
       </button>
     </>
