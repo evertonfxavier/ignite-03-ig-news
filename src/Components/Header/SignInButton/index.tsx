@@ -6,6 +6,7 @@ import { signIn, signOut, useSession } from "next-auth/client";
 import styles from "./styles.module.scss";
 
 export default function SignInButton() {
+  
   const [session] = useSession();
   console.log(session);
 
@@ -22,7 +23,9 @@ export default function SignInButton() {
         width="24px"
         style={{ objectFit: "cover", borderRadius: "80px", marginRight: 10 }}
       />
+
       {session.user?.name}
+      
       <FiX color="#737380" className={styles.closeIcon} />
     </button>
   ) : (

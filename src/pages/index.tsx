@@ -45,10 +45,13 @@ export const Home: React.FC<HomeProps> = ({ product }) => {
 
 export default Home;
 
+//SSR
+//Vai ser sempre no formato de const, pois no próprio next eu posso importar a tipagem GetServerSideProps
+//GetStaticProps > SSG > 
+//Se houver informação diferente por usuário é melhor utilizar o GetServerSideProps
 export const getStaticProps: GetStaticProps = async () => {
-  const price = await stripe.prices.retrieve("price_1JRF9JJaIBVLT88m8I4h1YG6", {
-    expand: ["product"],
-  });
+
+  const price = await stripe.prices.retrieve("price_1JRF9JJaIBVLT88m8I4h1YG6");
 
   const product = {
     priceId: price.id,
@@ -63,7 +66,7 @@ export const getStaticProps: GetStaticProps = async () => {
     props: {
       product,
     },
-    //quanto tempo em seg eu quero que essa página se mantenha sem previsar ser revalidada/construída.
+    //quanto tempo em seg eu quero que essa página se mantenha sem previsar ser revalidada/reconstruída.
     revalidate: 60 * 60 * 24, //24h
   };
 };
