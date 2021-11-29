@@ -61,6 +61,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
+//Toda página que pode ser pública, pode ser estátitca
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const { slug } = params;
 
